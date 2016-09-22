@@ -1,4 +1,7 @@
 soccer_gear/settings_private.py
+transactions/migrations
+custom_auth/migrations
+product/migrations
 
 
 
