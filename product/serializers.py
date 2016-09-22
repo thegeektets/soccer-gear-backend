@@ -25,4 +25,3 @@ class Product_CategorySerializer(serializers.ModelSerializer):
     category_id = serializers.IntegerField()
     category = CategorySerializer(many=False, read_only=True)
 
-

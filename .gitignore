@@ -1,10 +1,9 @@
-
 .idea
-venv
+venv/
 *.pyc
 soccer_gear/.idea
 soccer_gear/settings_private.py
 soccer_gear/settings_private.py
-transactions/migrations
-custom_auth/migrations
-product/migrations
+transactions/migrations/
+custom_auth/migrations/
+product/migrations/
