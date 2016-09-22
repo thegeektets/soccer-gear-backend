@@ -14,7 +14,7 @@ class Order(models.Model):
     user = models.ForeignKey('custom_auth.User', null=False, blank=False)
     status = models.CharField(null=False, blank=False, max_length=255)
     payment = models.ForeignKey('transaction.Payment', null=True, blank=False)
-    cost = models.TextField(null=False, blank=False, max_length=255)
+    cost = models.CharField(null=False, blank=False, max_length=255)
     date_ordered = models.DateField(default= django.utils.timezone.now, null=False, blank=False, max_length=255)
 
     def __str__(self):
@@ -45,4 +45,4 @@ class Payment(models.Model):
     date_paid = models.DateField(default= django.utils.timezone.now, null=False, blank=False, max_length=255)
 
     def __str__(self):
-        return "%s" % (self.title)
+        return "%s %s %s" %(self.user, self.mpesa_code, self.date_paid)
