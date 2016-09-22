@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'product',
     'transaction',
 
+    #third pary
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+
+
 ]
 
 MIDDLEWARE_CLASSES = [
