@@ -25,4 +25,7 @@ class Product_CategorySerializer(serializers.ModelSerializer):
     category_id = serializers.IntegerField()
     category = CategorySerializer(many=False, read_only=True)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7e4e72925ca016166395c38245e5d001ed694c9e

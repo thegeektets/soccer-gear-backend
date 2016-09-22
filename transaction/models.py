@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils.translation import ugettext_lazy as _
 import django.utils.timezone
+from product.models import Product
 # Create your models here.
 
 
