@@ -24,9 +24,9 @@ class Product(models.Model):
         return "%s" % (self.title)
 
 
-class Product_Category(models.Model):
+class ProductCategory(models.Model):
     class Meta:
-        verbose_name = _('Product_Category')
+        verbose_name = _('ProductCategory')
         verbose_name_plural = _('Product_Categories')
 
     product = models.ForeignKey('product.Product', null=False, blank=False)

@@ -36,8 +36,10 @@ router.register(r'payments', PaymentViewSet, base_name='payments')
 
 
 urlpatterns = [
-	url(r'^api/v1/', include(router.urls)),
-	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
- 
+    url(r'^mpesapy/', include('mpesapy.urls')),
+
 ]
+
