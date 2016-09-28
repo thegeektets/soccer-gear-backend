@@ -39,10 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #our apps
     'custom_auth',
-    'orders',
     'product',
-    'payment'
+    'transaction',
+   
+
+    #third pary
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'mpesapy',
+
 
 ]
 
@@ -130,3 +139,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
+else:
+    CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'www.localhost.com',
+    'localhost',
+    '127.0.0.1'
+    'www.localhost.com:3000',
+    '127.0.0.1:3000'
+)
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_PAGINATION_CLASS': 'soccer_gear.rest_extensions.LimitOffsetPagination',
+    'PAGE_SIZE': 20
+}
