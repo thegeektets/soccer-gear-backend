@@ -4,7 +4,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from transaction.models import Order, Order_Item, Payment
-from transaction.serializers import PaymentSerializer, OrderSerializer, Order_ItemSerializer
+from transaction.serializers import PaymentSerializer, OrderSerializer, OrderItemSerializer
+
 
 class OrderViewSet(viewsets.ModelViewSet):
 
@@ -12,11 +13,13 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
 
-class Order_ItemViewSet(viewsets.ModelViewSet):
+
+class OrderItemViewSet(viewsets.ModelViewSet):
 
     queryset = Order_Item.objects.all()
-    serializer_class = Order_ItemSerializer
+    serializer_class = OrderItemSerializer
     permission_classes = (IsAuthenticated,)
+
 
 class PaymentViewSet(viewsets.ModelViewSet):
 

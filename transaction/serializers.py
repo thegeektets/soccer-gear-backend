@@ -24,9 +24,7 @@ class OrderSerializer(serializers.ModelSerializer):
     payment = PaymentSerializer(many=False, read_only=True)
 
 
-
-
-class Order_ItemSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order_Item

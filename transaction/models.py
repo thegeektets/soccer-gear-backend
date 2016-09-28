@@ -21,6 +21,7 @@ class Order(models.Model):
     def __str__(self):
         return "%s - %s %s %s %s" % (self.user, self.status, self.payment, self.cost, self.date_ordered)
 
+
 class Order_Item(models.Model):
     class Meta:
         verbose_name = _('Order_Item')
