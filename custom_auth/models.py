@@ -46,6 +46,7 @@ class UserManager(UserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     full_name = models.CharField(_('full_name'), max_length=30, blank=True)
     mobile_number = models.CharField(_('mobile_number'), max_length=30, blank=True)
