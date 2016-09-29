@@ -22,6 +22,8 @@ router = routers.DefaultRouter()
 from custom_auth.views_rest import UserViewSet
 from product.views_rest import ProductViewSet, Product_CategoryViewSet, CategoryViewSet
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet
+from rest_framework.authtoken import views
+
 
 
 
@@ -38,6 +40,7 @@ router.register(r'payments', PaymentViewSet, base_name='payments')
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'api-token-auth/', views.obtain_auth_token),
     url(r'^admin/', admin.site.urls),
     url(r'^mpesapy/', include('mpesapy.urls')),
 
