@@ -1,12 +1,13 @@
 import json
 
+from pyasn1_modules.rfc2315 import IssuerAndSerialNumber
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied, NotAcceptable, MethodNotAllowed
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from custom_auth.models import User
-from custom_auth.serializers import UserSerializer
+from custom_auth.serializers import UserSerializer, UserRegistrationSerializer
 from rest_framework.response import Response
 
 
@@ -52,4 +53,31 @@ class UserViewSet(viewsets.ModelViewSet):
         instance = self.queryset.get(pk=pk)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+
+class UserRegisterViewSet(viewsets.ViewSet):
+
+    permission_classes = (AllowAny, )
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        if request.method.lower() == 'post':
+            if request.user.is_anonymous():
+                request.data['groups'] = []
+                serializer = UserRegistrationSerializer(data=request.data)
+
+                if serializer.is_valid(raise_exception=True):
+                    user = serializer.create(serializer.validated_data)
+                    user.groups = []
+                    user.set_password(serializer.data['password'])
+                    user.save()
+                    serializer = UserSerializer(user)
+
+                    return Response(serializer.data)
+                else:
+                    raise NotAcceptable()
+            else:
+                raise PermissionDenied('You are already registered.')
+        else:
+            raise MethodNotAllowed(request.method)
 

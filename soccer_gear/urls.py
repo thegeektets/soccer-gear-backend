@@ -19,23 +19,19 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 
-from custom_auth.views_rest import UserViewSet
+from custom_auth.views_rest import UserViewSet, UserRegisterViewSet
 from product.views_rest import ProductViewSet, Product_CategoryViewSet, CategoryViewSet
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet
 from rest_framework.authtoken import views
 
-
-
-
 router.register(r'auth/users', UserViewSet, base_name='auth-user')
+router.register(r'register', UserRegisterViewSet, base_name='auth-register')
 router.register(r'products', ProductViewSet, base_name='products')
 router.register(r'product/categories', Product_CategoryViewSet, base_name='product-categories')
 router.register(r'categories', CategoryViewSet, base_name='categories')
 router.register(r'orders', OrderViewSet, base_name='orders')
 router.register(r'order/items', OrderItemViewSet, base_name='order-items')
 router.register(r'payments', PaymentViewSet, base_name='payments')
-
-
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
