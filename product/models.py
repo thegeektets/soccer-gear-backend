@@ -24,6 +24,7 @@ class Product(models.Model):
         return "%s" % (self.title)
 
 
+    # TODO: make this the correct field on the product model
 class ProductCategory(models.Model):
     class Meta:
         verbose_name = _('ProductCategory')
