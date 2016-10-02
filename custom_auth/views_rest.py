@@ -3,7 +3,7 @@ import json
 from pyasn1_modules.rfc2315 import IssuerAndSerialNumber
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
-from rest_framework.exceptions import PermissionDenied, NotAcceptable, MethodNotAllowed
+from rest_framework.exceptions import PermissionDenied, NotAcceptable, MethodNotAllowed, ValidationError
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from custom_auth.models import User
@@ -67,9 +67,12 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 serializer = UserRegistrationSerializer(data=request.data)
 
                 if serializer.is_valid(raise_exception=True):
+                    if len(User.objects.filter(email=serializer.data['email'])):
+                        raise ValidationError({"email": "This email has been used already."})
                     user = serializer.create(serializer.validated_data)
                     user.groups = []
                     user.set_password(serializer.data['password'])
+                    user.is_active = True
                     user.save()
                     serializer = UserSerializer(user)
 

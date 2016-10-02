@@ -24,7 +24,7 @@ from product.views_rest import ProductViewSet, Product_CategoryViewSet, Category
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet
 from rest_framework.authtoken import views
 
-router.register(r'auth/users', UserViewSet, base_name='auth-user')
+router.register(r'auth/user', UserViewSet, base_name='auth-user')
 router.register(r'register', UserRegisterViewSet, base_name='auth-register')
 router.register(r'products', ProductViewSet, base_name='products')
 router.register(r'product/categories', Product_CategoryViewSet, base_name='product-categories')
@@ -39,6 +39,5 @@ urlpatterns = [
     url(r'api-token-auth/', views.obtain_auth_token),
     url(r'^admin/', admin.site.urls),
     url(r'^mpesapy/', include('mpesapy.urls')),
-
 ]
 
