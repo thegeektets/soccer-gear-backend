@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #our apps
+    'products',
     'custom_auth',
-    'product',
     'transaction',
-   
+
 
     #third pary
     'corsheaders',

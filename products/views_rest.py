@@ -4,8 +4,8 @@ import django_filters
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from product.models import Product, ProductCategory, Category
-from product.serializers import ProductSerializer, CategorySerializer, ProductCategorySerializer
+from products.models import Product, ProductCategory, Category
+from products.serializers import ProductSerializer, CategorySerializer, ProductCategorySerializer
 
 
 class ProductFilter(django_filters.FilterSet):
