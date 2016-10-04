@@ -154,7 +154,7 @@ else:
     CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
-    'gear.tunaweza.com'
+    'gear.tunaweza.com',
     'www.localhost.com',
     'localhost',
     '127.0.0.1'
