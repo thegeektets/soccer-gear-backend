@@ -155,6 +155,7 @@ else:
 
 CORS_ORIGIN_WHITELIST = (
     'gear.tunaweza.com',
+    'gear.tunaweza.com:8443',
     'www.localhost.com',
     'localhost',
     '127.0.0.1'
