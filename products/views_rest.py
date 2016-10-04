@@ -4,8 +4,8 @@ import django_filters
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from products.models import Product, ProductCategory, Category
-from products.serializers import ProductSerializer, CategorySerializer, ProductCategorySerializer
+from products.models import Product, Category
+from products.serializers import ProductSerializer, CategorySerializer
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -22,13 +22,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter, filters.DjangoFilterBackend)
     filter_class = ProductFilter
     search_fields = ('title', 'price', )
-
-
-class Product_CategoryViewSet(viewsets.ModelViewSet):
-
-    queryset = ProductCategory.objects.all()
-    serializer_class = ProductCategorySerializer
-    permission_classes = (AllowAny,)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
