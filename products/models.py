@@ -14,11 +14,11 @@ class Product(models.Model):
     title = models.CharField(null=False, blank=False, max_length=255)
     price = models.CharField(null=False, blank=False, max_length=255)
     description = models.TextField(null=False, blank=False, max_length=255)
-    size = JSONField()
-    color = JSONField()
-    main_image = models.CharField(null=False, blank=False, max_length=255)
-    images = JSONField()
-    video = models.CharField(null=False, blank=False, max_length=255)
+    size = JSONField(blank=True)
+    color = JSONField(blank=True)
+    main_image = models.CharField(null=False, blank=True, max_length=255)
+    images = JSONField(blank=True)
+    video = models.CharField(null=False, blank=True, max_length=255)
     category = models.ManyToManyField('products.Category')
 
     def __str__(self):
