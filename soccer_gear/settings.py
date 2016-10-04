@@ -27,7 +27,9 @@ SECRET_KEY = 'fy3)%ahxm=(!p)al9h+eu!9&^0r^x_+f0z)8aiwiolzxvy5t&g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env_variables['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'gear-api.tunaweza.com'
+]
 
 
 # Application definition
