@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     #our apps
     'products',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 
 
 ]
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
