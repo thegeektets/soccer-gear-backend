@@ -25,9 +25,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'fy3)%ahxm=(!p)al9h+eu!9&^0r^x_+f0z)8aiwiolzxvy5t&g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_variables['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'gear-api.tunaweza.com'
+]
 
 
 # Application definition
@@ -39,12 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     #our apps
+    'products',
     'custom_auth',
-    'product',
     'transaction',
-   
+
 
     #third pary
     'corsheaders',
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
 
 
 ]
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
@@ -140,6 +144,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/uploads")
 
 
 if DEBUG:
@@ -148,6 +154,8 @@ else:
     CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
+    'gear.tunaweza.com',
+    'gear.tunaweza.com:8443',
     'www.localhost.com',
     'localhost',
     '127.0.0.1'
