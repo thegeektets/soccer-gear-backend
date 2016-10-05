@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from products.models import Product, Category
 from products.serializers import ProductSerializer, CategorySerializer
+from soccer_gear.rest_extensions import CheckIfSuperUser
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -14,7 +15,7 @@ class ProductFilter(django_filters.FilterSet):
         fields = ['title', 'price', ]
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
