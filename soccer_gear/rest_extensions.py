@@ -26,3 +26,11 @@ class LimitOffsetPagination(pagination.LimitOffsetPagination):
         else:
             return prev_offset
 
+
+class CheckIfSuperUser:
+
+    def check_if_superuser(self, request):
+        if request.user.is_superuser or request.user.is_admin:
+            return True
+
+        return False

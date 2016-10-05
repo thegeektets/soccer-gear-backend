@@ -19,27 +19,24 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 
-from custom_auth.views_rest import UserViewSet
-from product.views_rest import ProductViewSet, Product_CategoryViewSet, CategoryViewSet
+from custom_auth.views_rest import UserViewSet, UserRegisterViewSet
+from products.views_rest import ProductViewSet, CategoryViewSet
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet
+from rest_framework.authtoken import views
 
-
-
-router.register(r'auth/users', UserViewSet, base_name='auth-user')
+router.register(r'auth/user', UserViewSet, base_name='auth-user')
+router.register(r'register', UserRegisterViewSet, base_name='auth-register')
 router.register(r'products', ProductViewSet, base_name='products')
-router.register(r'product/categories', Product_CategoryViewSet, base_name='product-categories')
 router.register(r'categories', CategoryViewSet, base_name='categories')
 router.register(r'orders', OrderViewSet, base_name='orders')
 router.register(r'order/items', OrderItemViewSet, base_name='order-items')
 router.register(r'payments', PaymentViewSet, base_name='payments')
 
-
-
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'api-token-auth/', views.obtain_auth_token),
     url(r'^admin/', admin.site.urls),
     url(r'^mpesapy/', include('mpesapy.urls')),
-
 ]
 

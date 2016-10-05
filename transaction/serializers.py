@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from .models import Order, Order_Item, Payment
-from product.models import  Product
-from product.serializers import ProductSerializer
+from products.models import  Product
+from products.serializers import ProductSerializer
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order_Item
-        fields = ('id', 'order_id', 'order', 'product_id', 'product', 'price', 'quantity', 'user_id' )
+        fields = ('id', 'order_id', 'order', 'product_id', 'products', 'price', 'quantity', 'user_id' )
 
     user_id = serializers.IntegerField()
     order_id = serializers.IntegerField()
