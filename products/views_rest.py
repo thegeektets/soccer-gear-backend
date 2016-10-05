@@ -12,7 +12,7 @@ from soccer_gear.rest_extensions import CheckIfSuperUser
 class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
-        fields = ['title', 'price', ]
+        fields = ['title', 'price', 'category']
 
 
 class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
