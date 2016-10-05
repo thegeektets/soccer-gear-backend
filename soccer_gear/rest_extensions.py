@@ -1,4 +1,5 @@
 from rest_framework import pagination
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 
@@ -29,8 +30,11 @@ class LimitOffsetPagination(pagination.LimitOffsetPagination):
 
 class CheckIfSuperUser:
 
-    def check_if_superuser(self, request):
+    def check_if_superuser(self, request, raise_error=True):
         if request.user.is_superuser or request.user.is_admin:
             return True
 
-        return False
+        if raise_error:
+            raise PermissionDenied
+        else:
+            return False
