@@ -10,9 +10,20 @@ from soccer_gear.rest_extensions import CheckIfSuperUser
 
 
 class ProductFilter(django_filters.FilterSet):
+
+    color = django_filters.MethodFilter()
+
+    def filter_color(self, queryset, value):
+        return queryset.filter(color__contains=json.dumps([value]))
+
+    size = django_filters.MethodFilter()
+
+    def filter_size(self, queryset, value):
+        return queryset.filter(size__contains=json.dumps([value]))
+
     class Meta:
         model = Product
-        fields = ['title', 'price', 'category']
+        fields = ['title', 'price', 'category', 'size']
 
 
 class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
@@ -22,7 +33,7 @@ class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
     permission_classes = (AllowAny,)
     filter_backends = (filters.SearchFilter, filters.DjangoFilterBackend)
     filter_class = ProductFilter
-    search_fields = ('title', 'price', )
+    search_fields = ('title', 'price', 'description', 'color')
 
     def create(self, request, *args, **kwargs):
         self.check_if_superuser(request)
