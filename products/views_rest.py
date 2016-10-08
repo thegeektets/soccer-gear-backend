@@ -23,7 +23,7 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['title', 'price', 'category', 'size']
+        fields = ['title', 'price', 'category', ]
 
 
 class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
@@ -33,7 +33,7 @@ class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
     permission_classes = (AllowAny,)
     filter_backends = (filters.SearchFilter, filters.DjangoFilterBackend)
     filter_class = ProductFilter
-    search_fields = ('title', 'price', 'description', 'color')
+    search_fields = ('title', 'price', 'description', 'category__title')
 
     def create(self, request, *args, **kwargs):
         self.check_if_superuser(request)
