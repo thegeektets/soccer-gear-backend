@@ -12,7 +12,7 @@ class Product(models.Model):
         verbose_name_plural = _('Products')
 
     title = models.CharField(null=False, blank=False, max_length=255)
-    price = models.CharField(null=False, blank=False, max_length=255)
+    price = models.DecimalField(decimal_places=2, max_digits=1000, default=0)
     description = models.TextField(null=False, blank=False, max_length=255)
     size = JSONField(blank=True)
     color = JSONField(blank=True)

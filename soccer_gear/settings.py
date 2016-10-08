@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'products',
     'custom_auth',
     'transaction',
+    'cart',
 
 
     #third pary

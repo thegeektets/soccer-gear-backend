@@ -38,3 +38,12 @@ class CheckIfSuperUser:
             raise PermissionDenied
         else:
             return False
+
+
+class SetToUserOrSuper:
+
+    def set_to_user_or_super(self, request, queryset):
+        if request.user.is_superuser or request.user.is_admin:
+            return queryset
+        else:
+            return queryset.filter(user=request.user)
