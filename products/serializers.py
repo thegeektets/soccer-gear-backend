@@ -7,6 +7,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
 
+    main_image = serializers.CharField()
 
 class CategorySerializer(serializers.ModelSerializer):
 
