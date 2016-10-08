@@ -12,6 +12,8 @@ class CartManager(Manager):
 
     def get_for_user_or_session(self, user, session_key):
         to_return = None
+        session_cart = None
+        cart_for_user = None
         if session_key is not None:
             try:
                 # need to upgrade the cart to a user cart in this situation
