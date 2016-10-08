@@ -137,10 +137,12 @@ class Cart(models.Model):
 
         self.subtotal = subtotal
 
+
 class CartItem(models.Model):
     class Meta:
         verbose_name = _('Cart Item')
         verbose_name_plural = _('Cart Items')
+        ordering = ('id',)
 
     cart = models.ForeignKey('cart.Cart', null=False, blank=False, related_name='items')
     product = models.ForeignKey('products.Product', null=False, blank=False)
