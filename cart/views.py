@@ -20,11 +20,12 @@ class CartViewSet(viewsets.ModelViewSet, SetToUserOrSuper):
     permission_classes = (AllowAny,)
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_anonymous():
-            if not request.session.get('has_session'):
-                request.session.create()
-                request.session['has_session'] = True
-                request.session.save()
+        # if request.session.get('is_created') is None:
+        #     request.session.create()
+        #     request.session['id'] = request.session.session_key
+        #     request.session['is_created'] = True
+        #     print('making session')
+        #     request.session.save()
         return super(CartViewSet, self).dispatch(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
@@ -41,16 +42,17 @@ class CartViewSet(viewsets.ModelViewSet, SetToUserOrSuper):
 
     @list_route(methods=['GET',])
     def my_cart(self, request, *args, **kwargs):
-        cart = Cart.objects.get_for_user_or_session(request.user, request.session.session_key)
+        session = request.GET.get('session', None)
+        cart = Cart.objects.get_for_user_or_session(request.user, session)
         if cart is not None:
             return Response(self.serializer_class(cart).data)
         else:
-            return Response(self.serializer_class(cart).data)
+            return Response({None})
 
     @detail_route(methods=['POST',])
     def add_item(self, request, *args, **kwargs):
-        cart = Cart.objects.get_or_create_for_user_or_session(request.user, request.session.session_key)
-        print(request.data)
+        session = request.data.get('session', None)
+        cart = Cart.objects.get_or_create_for_user_or_session(request.user, session)
         product_id = request.data.get('product_id', None)
         chosen_attributes = request.data.get('chosen_attributes', {})
         if product_id:
@@ -60,7 +62,8 @@ class CartViewSet(viewsets.ModelViewSet, SetToUserOrSuper):
 
     @detail_route(methods=['POST',])
     def remove_item(self, request, *args, **kwargs):
-        cart = Cart.objects.get_or_create_for_user_or_session(request.user, request.session.session_key)
+        session = request.data.get('session', None)
+        cart = Cart.objects.get_or_create_for_user_or_session(request.user, session)
         cart_item_id = request.data.get('cart_item_id', None)
         if cart_item_id:
             cart = cart.remove_item(cart_item_id)
@@ -69,7 +72,8 @@ class CartViewSet(viewsets.ModelViewSet, SetToUserOrSuper):
 
     @detail_route(methods=['POST',])
     def set_quantity(self, request, *args, **kwargs):
-        cart = Cart.objects.get_or_create_for_user_or_session(request.user, request.session.session_key)
+        session = request.data.get('session', None)
+        cart = Cart.objects.get_or_create_for_user_or_session(request.user, session)
         cart_item_id = request.data.get('cart_item_id', None)
         quantity = request.data.get('quantity', None)
         quantity = int(quantity)

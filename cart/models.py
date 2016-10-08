@@ -11,31 +11,57 @@ from products.models import Product
 class CartManager(Manager):
 
     def get_for_user_or_session(self, user, session_key):
-        to_return = self
-        try:
-            if user.is_anonymous():
-                to_return = to_return.get(session=session_key)
-            else:
-                to_return = to_return.get(user=user)
-        except ObjectDoesNotExist as e:
-            to_return = None
+        to_return = None
+        if session_key is not None:
+            try:
+                # need to upgrade the cart to a user cart in this situation
+                session_cart = self.get(session=session_key)
+            except ObjectDoesNotExist as e:
+                session_cart = None
+
+        if user.is_anonymous() is True:
+            return session_cart
+        else:
+            try:
+                cart_for_user = self.get(user=user)
+            except ObjectDoesNotExist as e:
+                cart_for_user = None
+
+            if session_cart is not None and cart_for_user is not None:
+                for item in session_cart.items.all():
+                    item.cart = cart_for_user
+                    cart_for_user.items.add(item)
+                    cart_for_user.total_quantity += item.quantity
+                cart_for_user.subtotal_cart()
+                cart_for_user.save()
+                session_cart.delete()
+                return cart_for_user
+            elif session_cart is None and cart_for_user is not None:
+                return cart_for_user
+            if session_cart is not None and cart_for_user is None:
+                # need to upgrade the cart to a user cart in this situation
+                session_cart = self.get(session=session_key)
+                session_cart.user = user
+                session_cart.session = None
+                session_cart.save()
+                return session_cart
 
         return to_return
 
     def get_or_create_for_user_or_session(self, user, session_key):
-        to_return = self
+        to_return = None
         try:
-            if user.is_anonymous():
-                to_return = to_return.get(session=session_key)
-            else:
-                to_return =to_return.get(user=user)
+            if user.is_anonymous() and session_key is not None:
+                to_return = self.get(session=session_key)
+            if user.is_anonymous() is False:
+                to_return = self.get(user=user)
         except ObjectDoesNotExist as e:
             to_return = None
 
         if to_return is None:
-            if user.is_anonymous():
+            if user.is_anonymous() and session_key is not None:
                 to_return = self.create(session=session_key)
-            else:
+            if user.is_anonymous() is False:
                 to_return = self.create(user=user)
 
         return to_return
