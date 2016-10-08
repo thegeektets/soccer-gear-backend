@@ -16,7 +16,7 @@ class Product(models.Model):
     description = models.TextField(null=False, blank=False, max_length=255)
     attributes = JSONField(blank=True, default={})
     attribute_fields = JSONField(blank=True, default=[])
-    main_image = models.ImageField(null=True, blank=True, upload_to="/product_images/")
+    main_image = models.ImageField(null=True, blank=True, upload_to="product_images/")
     images = JSONField(blank=True)
     video = models.CharField(null=False, blank=True, max_length=255)
     category = models.ManyToManyField('products.Category')
