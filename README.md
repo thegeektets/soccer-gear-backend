@@ -20,6 +20,7 @@ cd ~/soccer-gear-frontend/;
 git fetch;
 git checkout dev;
 git pull;
+npm install;
 gulp build --env=production;
 ```
 
