@@ -13,7 +13,7 @@ class Product(models.Model):
 
     title = models.CharField(null=False, blank=False, max_length=255)
     price = models.DecimalField(decimal_places=2, max_digits=1000, default=0)
-    description = models.TextField(null=False, blank=False, max_length=255)
+    description = models.TextField(null=False, blank=False)
     attributes = JSONField(blank=True, default={})
     attribute_fields = JSONField(blank=True, default=[])
     main_image = models.ImageField(null=True, blank=True, upload_to="product_images/")
