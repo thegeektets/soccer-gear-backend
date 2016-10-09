@@ -9,10 +9,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
     main_image = serializers.CharField()
 
+class ChildCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'parent')
+
+
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'title')
+        fields = ('id', 'title', 'parent', 'categories')
 
-
+    categories = ChildCategorySerializer(source="get_children", many=True)

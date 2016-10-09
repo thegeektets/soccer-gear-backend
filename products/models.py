@@ -29,7 +29,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
-
+        ordering = ('title',)
     title = models.CharField(null=False, blank=False, max_length=255)
     parent = models.ForeignKey('products.Category', null=True, blank=True)
 
@@ -37,3 +37,5 @@ class Category(models.Model):
         return "%s" % (self.title)
 
 
+    def get_children(self):
+        return Category.objects.filter(parent=self)

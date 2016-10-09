@@ -49,3 +49,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (AllowAny,)
+
+    def list(self, request, *args, **kwargs):
+        self.queryset = self.queryset.filter(parent=None)
+        return super(CategoryViewSet, self).list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        return super(CategoryViewSet, self).retrieve(request, *args, **kwargs)
