@@ -22,3 +22,27 @@ git checkout dev;
 git pull;
 gulp build --env=production;
 ```
+
+## Structure for item atributes
+item.attributes = Json object of an object:
+```
+{
+    "color": ["white", "red", "yellow", "black", "orange"],
+    "size": [5,6,7,8,9,10,11,12,13]
+}
+```
+item.attribute_fields = Json object of an array of field objects:
+```
+[
+    {
+        "field": "color",
+        "type": "string"
+    },
+    {
+        "field": "color",
+        "type": "number"
+    }
+]
+```
+
+
