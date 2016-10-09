@@ -31,7 +31,7 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
 
     title = models.CharField(null=False, blank=False, max_length=255)
-    category = models.ForeignKey('products.Category', related_name='parent', null=True)
+    parent = models.ForeignKey('products.Category', null=True, blank=True)
 
     def __str__(self):
         return "%s" % (self.title)
