@@ -13,8 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
             'date_joined',
+            'is_admin',
+            'is_superuser'
         )
 
+    is_admin = serializers.BooleanField(read_only=True)
+    is_superuser = serializers.BooleanField(read_only=True)
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
