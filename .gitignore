@@ -4,3 +4,4 @@ venv/
 soccer_gear/.idea
 soccer_gear/settings_private.py
 static/
+media/uploads

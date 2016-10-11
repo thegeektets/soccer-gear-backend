@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from cart.views import CartViewSet
-from django.conf.urls import url, include
+from django.conf.urls import url, include, patterns
 from django.contrib import admin
 from rest_framework import routers
-
+from soccer_gear import settings
 router = routers.DefaultRouter()
 
 from custom_auth.views_rest import UserViewSet, UserRegisterViewSet
@@ -42,3 +42,9 @@ urlpatterns = [
     url(r'^mpesapy/', include('mpesapy.urls')),
 ]
 
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^static/uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
+)
