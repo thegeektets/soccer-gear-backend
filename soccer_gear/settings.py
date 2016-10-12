@@ -178,3 +178,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'soccer_gear.rest_extensions.LimitOffsetPagination',
     'PAGE_SIZE': 20
 }
+
+
+if DEBUG:
+    LIPISHA_API_KEY = env_variables['LIPISHA_DEV_API_KEY']
+    LIPISHA_API_SIGNATURE = env_variables['LIPISHA_DEV_API_SIGNATURE']
+else:
+    LIPISHA_API_KEY = env_variables['LIPISHA_API_KEY']
+    LIPISHA_API_SIGNATURE = env_variables['LIPISHA_API_SIGNATURE']

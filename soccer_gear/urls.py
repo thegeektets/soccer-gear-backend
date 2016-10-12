@@ -22,7 +22,7 @@ router = routers.DefaultRouter()
 
 from custom_auth.views_rest import UserViewSet, UserRegisterViewSet
 from products.views_rest import ProductViewSet, CategoryViewSet
-from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet
+from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet, CheckoutViewSet
 from rest_framework.authtoken import views
 
 router.register(r'auth/user', UserViewSet, base_name='auth-user')
@@ -33,13 +33,13 @@ router.register(r'orders', OrderViewSet, base_name='orders')
 router.register(r'order/items', OrderItemViewSet, base_name='order-items')
 router.register(r'payments', PaymentViewSet, base_name='payments')
 router.register(r'cart', CartViewSet, base_name='cart')
+router.register(r'checkout', CheckoutViewSet, base_name='checkout')
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'api-token-auth/', views.obtain_auth_token),
-    url(r'^admin/', admin.site.urls),
-    url(r'^mpesapy/', include('mpesapy.urls')),
+    url(r'^admin/', admin.site.urls)
 ]
 
 
