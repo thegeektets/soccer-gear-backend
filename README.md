@@ -40,7 +40,7 @@ item.attribute_fields = Json object of an array of field objects:
         "type": "string"
     },
     {
-        "field": "color",
+        "field": "size",
         "type": "number"
     }
 ]
