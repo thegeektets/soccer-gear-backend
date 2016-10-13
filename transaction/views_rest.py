@@ -2,7 +2,7 @@ import json
 
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from soccer_gear.settings import LIPISHA_API_KEY, LIPISHA_API_SIGNATURE
 
@@ -15,52 +15,51 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
 
     queryset = Order_Item.objects.all()
     serializer_class = OrderItemSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
 
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
 
 class CheckoutViewSet(viewsets.ViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
-    @list_route(methods=['post',])
+    @list_route(methods=['POST',])
     def request_payment(self, request, *args, **kwargs):
-        account_number = request.POST.get('account_number', None)
-        mobile_number = request.POST.get('mobile_number', None)
-
+        mobile_number = request.data['mobile_number']
+        amount = request.data['amount']
         lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment='test')
         abc = lipisha.request_money(
-                account_number="098000",
-                mobile_number="1234567890",
+                account_number="06942",
+                mobile_number=mobile_number,
                 method="Paybill (M-Pesa)",
-                amount="10",
+                amount=amount,
                 currency="KES",
-                reference="O1212"
+                reference="SoccerGear"
         )
         print(abc)
         return Response(abc)
 
-    @list_route(methods=['post',])
+    @list_route(methods=['POST',])
     def confirm_transaction(self, request, *args, **kwargs):
-        transaction = request.POST.get('transaction', None)
+        transaction = request.data['transaction']
 
         lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment='test')
         abc = lipisha.confirm_transaction(
-                transaction="WOACXI9D8"
+                transaction=transaction
         )
         print(abc)
         return Response(abc)
