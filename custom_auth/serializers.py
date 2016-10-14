@@ -14,6 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
+            'mobile_number',
+            'mpesa_phone_number',
             'date_joined',
             'is_admin',
             'is_superuser'
