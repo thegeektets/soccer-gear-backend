@@ -41,7 +41,7 @@ class CheckoutViewSet(viewsets.ViewSet):
     def request_payment(self, request, *args, **kwargs):
         mobile_number = request.data['mobile_number']
         amount = request.data['amount']
-        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE)
+        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment='test')
         abc = lipisha.request_money(
                 account_number="06942",
                 mobile_number=mobile_number,

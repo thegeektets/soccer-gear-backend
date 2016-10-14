@@ -50,8 +50,8 @@ class UserManager(UserManager):
 class User(AbstractUser):
     full_name = models.CharField(_('full_name'), max_length=30, blank=True)
     mobile_number = models.CharField(_('mobile_number'), max_length=30, blank=True)
-    default_billing_address = models.CharField(_('default_billing_address'), max_length=200, blank=True)
-    default_shipping_address = models.CharField(_('default_shipping_address'), max_length=200, blank=True)
+    default_billing_address = models.TextField(_('default_billing_address'), max_length=200, blank=True)
+    default_shipping_address = models.TextField(_('default_shipping_address'), max_length=200, blank=True)
     mpesa_phone_number = models.TextField(_('mpesa_phone_number'), max_length=30, blank=True)
     is_admin = models.BooleanField(_('is_admin'), default=False)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
