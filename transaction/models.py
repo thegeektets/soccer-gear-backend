@@ -14,7 +14,7 @@ class Order(models.Model):
 
     user = models.ForeignKey('custom_auth.User', null=False, blank=False)
     status = models.CharField(null=False, blank=False, max_length=255)
-    payment = models.ForeignKey('transaction.Payment', null=True, blank=False)
+    payment = models.ForeignKey('transaction.Payment', null=True, blank=True)
     cost = models.CharField(null=False, blank=False, max_length=255)
     date_ordered = models.DateField(default= django.utils.timezone.now, null=False, blank=False, max_length=255)
 
