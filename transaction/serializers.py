@@ -28,10 +28,11 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order_Item
-        fields = ('id', 'order_id', 'order', 'product_id', 'products', 'price', 'quantity', 'user_id' )
+        fields = ('id', 'order_id', 'product_id', 'price', 'quantity', 'user_id' )
 
     user_id = serializers.IntegerField()
     order_id = serializers.IntegerField()
-    order = OrderSerializer(many=False, read_only=True)
     product_id = serializers.IntegerField()
-    product = ProductSerializer(many=False, read_only=True)
+    price = serializers.IntegerField()
+    quantity = serializers.IntegerField()
+
