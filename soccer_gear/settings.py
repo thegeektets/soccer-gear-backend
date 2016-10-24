@@ -182,6 +182,8 @@ REST_FRAMEWORK = {
 if DEBUG:
     LIPISHA_API_KEY = env_variables['LIPISHA_DEV_API_KEY']
     LIPISHA_API_SIGNATURE = env_variables['LIPISHA_DEV_API_SIGNATURE']
+    LIPISHA_API_ENV = env_variables['LIPISHA_DEV_ENV']
 else:
     LIPISHA_API_KEY = env_variables['LIPISHA_API_KEY']
     LIPISHA_API_SIGNATURE = env_variables['LIPISHA_API_SIGNATURE']
+    LIPISHA_API_ENV = env_variables['LIPISHA_API_ENV']
