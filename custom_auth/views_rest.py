@@ -1,14 +1,20 @@
 import json
 
-from pyasn1_modules.rfc2315 import IssuerAndSerialNumber
+from django.utils.translation import ugettext_lazy as _
+
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.exceptions import PermissionDenied, NotAcceptable, MethodNotAllowed, ValidationError
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.generics import GenericAPIView
+
 
 from custom_auth.models import User
-from custom_auth.serializers import UserSerializer, UserRegistrationSerializer
-from rest_framework.response import Response
+from custom_auth.serializers import UserSerializer, UserRegistrationSerializer,PasswordChangeSerializer , PasswordResetConfirmSerializer, PasswordResetSerializer
+
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -48,11 +54,12 @@ class UserViewSet(viewsets.ModelViewSet):
             raise PermissionDenied
 
     @list_route(methods=['get'])
-    def current_user(self, request, *args, **kwargs):
+    def current_user(self, request):
         pk = request.user.id
         instance = self.queryset.get(pk=pk)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
 
 
 class UserRegisterViewSet(viewsets.ViewSet):
@@ -60,7 +67,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
     permission_classes = (AllowAny, )
     serializer_class = UserSerializer
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request):
         if request.method.lower() == 'post':
             if request.user.is_anonymous():
                 request.data['groups'] = []
@@ -83,4 +90,67 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 raise PermissionDenied('You are already registered.')
         else:
             raise MethodNotAllowed(request.method)
+
+class PasswordResetViewSet(GenericAPIView):
+
+    """
+    Calls Django Auth PasswordResetForm save method.
+
+    Accepts the following POST parameters: email
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        # Create a serializer with request.data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+        # Return the success message with OK HTTP status
+        return Response(
+            {"success": _("Password reset e-mail has been sent.")},
+            status=status.HTTP_200_OK
+        )
+
+
+class PasswordResetConfirmViewSet(GenericAPIView):
+    """
+    Password reset e-mail link is confirmed, therefore this resets the user's password.
+
+    Accepts the following POST parameters: new_password1, new_password2
+    Accepts the following Django URL arguments: token, uid
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"success": _("Password has been reset with the new password.")})
+
+
+class PasswordChangeViewSet(GenericAPIView):
+    """
+    Calls Django Auth SetPasswordForm save method.
+
+    Accepts the following POST parameters: new_password1, new_password2
+    Returns the success/fail message.
+    """
+
+    serializer_class = PasswordChangeSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"success": _("New password has been saved.")})
+
+
 

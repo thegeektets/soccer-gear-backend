@@ -20,7 +20,7 @@ from rest_framework import routers
 from soccer_gear import settings
 router = routers.DefaultRouter()
 
-from custom_auth.views_rest import UserViewSet, UserRegisterViewSet
+from custom_auth.views_rest import UserViewSet, UserRegisterViewSet, PasswordResetViewSet, PasswordResetConfirmViewSet
 from products.views_rest import ProductViewSet, CategoryViewSet
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet, CheckoutViewSet
 from rest_framework.authtoken import views
@@ -36,10 +36,20 @@ router.register(r'cart', CartViewSet, base_name='cart')
 router.register(r'checkout', CheckoutViewSet, base_name='checkout')
 
 urlpatterns = [
+    url('^', include('django.contrib.auth.urls')),
+
+    # URLs that do not require a session or valid token
+    url(r'password/reset/$', PasswordResetViewSet.as_view(),
+        name='rest_password_reset'),
+    url(r'^password/reset/confirm/$', PasswordResetConfirmViewSet.as_view(),
+        name='rest_password_reset_confirm'),
+
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'api-token-auth/', views.obtain_auth_token),
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', admin.site.urls),
+
+
 ]
 
 
