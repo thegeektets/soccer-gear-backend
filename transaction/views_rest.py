@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from soccer_gear.settings import LIPISHA_API_KEY, LIPISHA_API_SIGNATURE
+from soccer_gear.settings import LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, LIPISHA_API_ENV
 
 from transaction.models import Order, Order_Item, Payment
 from transaction.serializers import PaymentSerializer, OrderSerializer, OrderItemSerializer
@@ -34,14 +34,13 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 class CheckoutViewSet(viewsets.ViewSet):
     queryset = Payment.objects.all()
-    serializer_class = PaymentSerializer
     permission_classes = (AllowAny,)
 
     @list_route(methods=['POST',])
     def request_payment(self, request, *args, **kwargs):
         mobile_number = request.data['mobile_number']
         amount = request.data['amount']
-        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment='test')
+        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment=LIPISHA_API_ENV)
         abc = lipisha.request_money(
                 account_number="06942",
                 mobile_number=mobile_number,
@@ -57,7 +56,7 @@ class CheckoutViewSet(viewsets.ViewSet):
     def confirm_transaction(self, request, *args, **kwargs):
         transaction = request.data['transaction']
 
-        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment='test')
+        lipisha = Lipisha(LIPISHA_API_KEY, LIPISHA_API_SIGNATURE, api_environment=LIPISHA_API_ENV)
         abc = lipisha.confirm_transaction(
                 transaction=transaction
         )
