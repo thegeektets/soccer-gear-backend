@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import NotAcceptable
+from rest_framework.authtoken.models import Token as DefaultTokenModel
+from .utils import import_callable
 
 
 GENDER_CHOICES = (
@@ -76,3 +78,6 @@ class User(AbstractUser):
 
     def has_module_perms(self, app_label):
         return self.is_superuser
+
+TokenModel = import_callable(
+    getattr(settings, 'REST_AUTH_TOKEN_MODEL', DefaultTokenModel))
