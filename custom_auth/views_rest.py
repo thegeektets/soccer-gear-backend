@@ -106,14 +106,11 @@ class PasswordResetViewSet(GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            if len(User.objects.filter(email = serializer.data['email'])):
+            if len(User.objects.filter(email =  serializer.data['email'])):
                 serializer.save()
-                raise ValidationError({"success": _("Password reset e-mail has been sent.")})
-
-            return Response(
-                {"email": "The Email does not exist in our System. Kindly use an existing email"}
-                )
-
+                return Response({"success": _("Password reset e-mail has been sent.")})
+            else:
+                return Response({"Failed": _("The email is not in our system.")})
         else:
             raise NotAcceptable()
 
