@@ -19,7 +19,7 @@ class Product(models.Model):
     main_image = models.ImageField(null=True, blank=True, upload_to="product_images/")
     images = JSONField(blank=True)
     video = models.CharField(null=False, blank=True, max_length=255)
-    category = models.ManyToManyField('products.Category')
+    category = models.ForeignKey('products.Category', null=True, blank=True)
 
     def __str__(self):
         return "%s" % (self.title)
