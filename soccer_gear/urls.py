@@ -37,21 +37,13 @@ router.register(r'checkout', CheckoutViewSet, base_name='checkout')
 
 urlpatterns = [
 
-    # URLs that do not require a session or valid token
+    url('^', include('django.contrib.auth.urls')),
+
     url(r'password/reset/$', PasswordResetViewSet.as_view(),
         name='rest_password_reset'),
-    url(r'^user/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'django.contrib.auth.views.password_reset_confirm',
-    {'template_name' : 'template/password_reset_confirm.html',
-    'post_reset_redirect' : 'coursework.views.list_comments'},
-    name='password_reset_confirm'),
 
-    # url(r'^user/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-    #          'django.contrib.auth.views.password_reset_confirm'),
-    # url(r'^user/password/reset/complete/$',
-    #          'django.contrib.auth.views.password_reset_complete'),
-
-    # url(r'^password/reset/confirm/$', PasswordResetConfirmViewSet.as_view(),
-    #     name='rest_password_reset_confirm'),
+    url(r'^password/reset/confirm/$', PasswordResetConfirmViewSet.as_view(),
+        name='rest_password_reset_confirm'),
 
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

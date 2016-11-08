@@ -8,6 +8,7 @@ from django.db.models import Q
 from products.models import Product, Category
 from products.serializers import ProductSerializer, CategorySerializer
 from soccer_gear.rest_extensions import CheckIfSuperUser
+from rest_framework.exceptions import PermissionDenied
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -56,3 +57,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         return super(CategoryViewSet, self).retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.is_admin:
+            return super(CategoryViewSet, self).update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+    def destroy(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.is_admin:
+            return super(CategoryViewSet, self).destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+    def create(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.is_admin:
+            return super(CategoryViewSet, self).create(request, *args, **kwargs)
+        else:
+            raise PermissionDenied

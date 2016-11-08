@@ -11,9 +11,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'title', 'parent', 'categories')
+        fields = ('id', 'title', 'parent')
 
-    categories = ChildCategorySerializer(source="get_children", many=True)
+    # categories = ChildCategorySerializer(source="get_children", many=False)
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -21,7 +21,6 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
 
     main_image = serializers.CharField(allow_blank=True)
-    
 
 
 
