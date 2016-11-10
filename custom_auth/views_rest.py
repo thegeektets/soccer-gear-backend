@@ -109,8 +109,8 @@ class PasswordResetViewSet(GenericAPIView):
             if len(User.objects.filter(email =  serializer.data['email'])):
                 serializer.save()
                 return Response({"success": _("Password reset e-mail has been sent.")})
-            # else:
-            #     return Response({"Failed": _("The email is not in our system.")})
+            else:
+                return Response({"Failed": _("The email is not in our system.")})
         else:
             return Response({"Failed": _("The email is not in our system.")})
 
