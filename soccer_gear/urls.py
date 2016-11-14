@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'password/reset/$', PasswordResetViewSet.as_view(),
         name='rest_password_reset'),
 
-    url(r'^password/reset/confirm/$', PasswordResetConfirmViewSet.as_view(),
+    url(r'password/reset/confirm/$', PasswordResetConfirmViewSet.as_view(),
         name='rest_password_reset_confirm'),
 
     url(r'^api/v1/', include(router.urls)),
