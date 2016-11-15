@@ -1,15 +1,17 @@
 import json
 import django_filters
 
+from rest_framework.response import Response
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.db.models import Q
 
-from products.models import Product, Category
-from products.serializers import ProductSerializer, CategorySerializer
+from products.models import Product, Category, FileUpload
+from products.serializers import ProductSerializer, CategorySerializer, FileUploadSerializer
 from soccer_gear.rest_extensions import CheckIfSuperUser
 from rest_framework.exceptions import PermissionDenied
-
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
+from rest_framework.viewsets import ModelViewSet
 
 class ProductFilter(django_filters.FilterSet):
 
@@ -28,6 +30,7 @@ class ProductViewSet(viewsets.ModelViewSet, CheckIfSuperUser):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
     permission_classes = (AllowAny,)
     filter_backends = (filters.SearchFilter, filters.DjangoFilterBackend)
     filter_class = ProductFilter
@@ -75,3 +78,14 @@ class CategoryViewSet(viewsets.ModelViewSet):
             return super(CategoryViewSet, self).create(request, *args, **kwargs)
         else:
             raise PermissionDenied
+
+
+class FileUploadViewSet(ModelViewSet):
+    queryset = FileUpload.objects.all()
+    serializer_class = FileUploadSerializer
+    parser_classes = (MultiPartParser, FormParser,)
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        print(self.request.FILES)
+        serializer.save(datafile=self.request.FILES['file'])

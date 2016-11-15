@@ -1,11 +1,12 @@
+import datetime
+import hashlib
+
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
-
-
 class Product(models.Model):
     class Meta:
         verbose_name = _('Product')
@@ -16,14 +17,13 @@ class Product(models.Model):
     description = models.TextField(null=False, blank=False)
     attributes = JSONField(blank=True, default={})
     attribute_fields = JSONField(blank=True, default=[])
-    main_image = models.ImageField(null=True, blank=True, upload_to="product_images/")
+    datafile = models.ForeignKey('products.FileUpload', blank=True, null=True)
     images = JSONField(blank=True)
     video = models.CharField(null=False, blank=True, max_length=255)
     category = models.ForeignKey('products.Category', null=True, blank=True)
 
     def __str__(self):
         return "%s" % (self.title)
-
 
 class Category(models.Model):
     class Meta:
@@ -39,3 +39,17 @@ class Category(models.Model):
 
     def get_children(self):
         return Category.objects.filter(parent=self)
+
+def makeImagePath(obj, file_name):
+    extension = file_name.split('.')
+    extension = extension[-1]
+    file_name = '%s%s' % (datetime.date.today().__str__(), file_name)
+    file_name = hashlib.md5(file_name).hexdigest()
+    return 'product_images/%s.%s' % (file_name, extension.lower())
+
+
+class FileUpload(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    datafile = models.FileField(upload_to=makeImagePath)
+    def __str__(self):
+        return "%s" % (self.datafile)
