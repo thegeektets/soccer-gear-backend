@@ -68,7 +68,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 
-SITE_ID = 2
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
