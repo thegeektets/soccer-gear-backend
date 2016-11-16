@@ -44,6 +44,7 @@ def makeImagePath(obj, file_name):
     extension = file_name.split('.')
     extension = extension[-1]
     file_name = '%s%s' % (datetime.date.today().__str__(), file_name)
+    file_name = file_name.encode('utf-8')
     file_name = hashlib.md5(file_name).hexdigest()
     return 'product_images/%s.%s' % (file_name, extension.lower())
 

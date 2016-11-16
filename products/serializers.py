@@ -31,8 +31,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     datafile = FileUploadSerializer(many=False, read_only=True)
     datafile_id = serializers.IntegerField()
-    category = CategorySerializer(many=False, read_only=True)
-    category_id = serializers.IntegerField()
 
 
 
