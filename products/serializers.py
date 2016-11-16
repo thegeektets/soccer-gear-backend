@@ -22,7 +22,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     categories = ChildCategorySerializer(source="get_children", many=True, read_only=True)
     parent = ChildCategorySerializer(many=False, read_only=True, default=None)
-    parent_id = serializers.IntegerField(read_only=True,)
+    parent_id = serializers.IntegerField(read_only=False, source='parent')
 
 class ProductSerializer(serializers.ModelSerializer):
 
