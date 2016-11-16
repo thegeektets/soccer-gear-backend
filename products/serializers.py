@@ -19,8 +19,8 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'parent', 'categories', 'parent_id')
 
     categories = ChildCategorySerializer(source="get_children", many=True, read_only=True)
-    parent = ChildCategorySerializer(many=False, read_only=True)
-    parent_id = serializers.IntegerField(read_only=False)
+    parent = ChildCategorySerializer(many=False, read_only=True, default=None)
+    parent_id = serializers.IntegerField(read_only=True,)
 
 class FileUploadSerializer(serializers.ModelSerializer):
     class Meta:
