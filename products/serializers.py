@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import Product, Category
+from .models import Product, Category, FileUpload
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
 
 class ChildCategorySerializer(serializers.ModelSerializer):
 
@@ -17,12 +22,12 @@ class CategorySerializer(serializers.ModelSerializer):
     parent = ChildCategorySerializer(many=False, read_only=True)
     parent_id = serializers.IntegerField(read_only=False)
 
-class ProductSerializer(serializers.ModelSerializer):
-
+class FileUploadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = FileUpload
 
-    main_image = serializers.CharField(allow_blank=True)
+    datafile=serializers.CharField(read_only=True)
+
 
 
 

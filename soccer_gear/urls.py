@@ -18,16 +18,18 @@ from django.conf.urls import url, include, patterns
 from django.contrib import admin
 from rest_framework import routers
 from soccer_gear import settings
-router = routers.DefaultRouter()
-
 from custom_auth.views_rest import UserViewSet, UserRegisterViewSet, PasswordResetViewSet, PasswordResetConfirmViewSet
-from products.views_rest import ProductViewSet, CategoryViewSet
+from products.views_rest import ProductViewSet, CategoryViewSet, FileUploadViewSet
 from transaction.views_rest import OrderViewSet, OrderItemViewSet, PaymentViewSet, CheckoutViewSet
 from rest_framework.authtoken import views
+from django.conf.urls.static import static
+
+router = routers.DefaultRouter()
 
 router.register(r'auth/user', UserViewSet, base_name='auth-user')
 router.register(r'register', UserRegisterViewSet, base_name='auth-register')
 router.register(r'products', ProductViewSet, base_name='products')
+router.register(r'fileupload', FileUploadViewSet, base_name='upload')
 router.register(r'categories', CategoryViewSet, base_name='categories')
 router.register(r'orders', OrderViewSet, base_name='orders')
 router.register(r'order/items', OrderItemViewSet, base_name='order-items')
@@ -50,12 +52,7 @@ urlpatterns = [
     url(r'api-token-auth/', views.obtain_auth_token),
     url(r'^admin/', admin.site.urls),
 
-
 ]
 
-
 if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^static/uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
-)
+    urlpatterns += [url(r'^media/uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),]

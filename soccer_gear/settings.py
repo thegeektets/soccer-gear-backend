@@ -94,6 +94,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -156,8 +157,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/uploads")
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/uploads")
 
 if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True
