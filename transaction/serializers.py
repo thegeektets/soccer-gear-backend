@@ -18,10 +18,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'status', 'payment_id', 'cost', 'user_id')
+        fields = ('id', 'status', 'payment', 'payment_id', 'cost', 'user_id')
 
     user_id = serializers.IntegerField()
     payment_id = serializers.IntegerField(required=False)
+    payment = PaymentSerializer(many=False, read_only=True)
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
