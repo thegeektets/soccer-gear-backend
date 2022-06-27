@@ -18,7 +18,7 @@ python-openid==2.2.5
 python-social-auth==0.2.19
 python3-openid==3.0.10
 pytz==2016.4
-reportlab==3.3.0
+reportlab==3.5.55
 requests==2.10.0
 requests-oauthlib==0.6.1
 rsa==3.4.2
